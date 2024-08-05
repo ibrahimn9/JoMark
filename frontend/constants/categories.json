@@ -1,0 +1,69 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Women's Clothing",
+      "icon": "https://img.icons8.com/?size=100&id=p3s5b7YAzGTk&format=png&color=000000"
+    },
+    {
+      "id": 2,
+      "name": "Men's Clothing",
+      "icon": "https://img.icons8.com/?size=100&id=1w2ij1S8RROu&format=png&color=000000"
+    },
+    {
+      "id": 3,
+      "name": "Shoes",
+      "icon": "https://img.icons8.com/?size=100&id=107678&format=png&color=000000"
+    },
+    {
+      "id": 4,
+      "name": "Sports & Entertainment",
+      "icon": "https://img.icons8.com/?size=100&id=Skts04q24m8F&format=png&color=000000"
+    },
+    {
+      "id": 5,
+      "name": "Utensils",
+      "icon": "https://img.icons8.com/?size=100&id=zJkV4cMkYA0p&format=png&color=000000"
+    },
+    {
+      "id": 6,
+      "name": "Watches & Accessoiries",
+      "icon": "https://img.icons8.com/?size=100&id=SOl68hv3r4RV&format=png&color=000000"
+    },
+    {
+      "id": 7,
+      "name": "Electronics",
+      "icon": "https://img.icons8.com/?size=100&id=2768&format=png&color=000000"
+    },
+    {
+      "id": 8,
+      "name": "Beauty & Personal Care",
+      "icon": "https://img.icons8.com/?size=100&id=2Xx1DwjSAYGZ&format=png&color=000000"
+    },
+    {
+      "id": 9,
+      "name": "Home & Furniture",
+      "icon": "https://img.icons8.com/?size=100&id=y2GWL3nrlTBH&format=png&color=000000"
+    },
+    {
+      "id": 10,
+      "name": "School & Supplies",
+      "icon": "https://img.icons8.com/?size=100&id=RsSXBpr5VSBP&format=png&color=000000"
+    },
+    {
+      "id": 11,
+      "name": "Maternity, Baby & Toys",
+      "icon": "https://img.icons8.com/?size=100&id=49118&format=png&color=000000"
+    },
+    {
+      "id": 12,
+      "name": "Groceries",
+      "icon": "https://img.icons8.com/?size=100&id=114632&format=png&color=000000"
+    },
+    {
+      "id": 13,
+      "name": "Other",
+      "icon": "https://img.icons8.com/?size=100&id=YwDrzldhsBCu&format=png&color=000000"
+    }
+  ]
+}

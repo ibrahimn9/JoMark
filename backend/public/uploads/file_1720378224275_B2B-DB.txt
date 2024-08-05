@@ -1,0 +1,33 @@
+-- Create a table for unique emails
+CREATE TABLE users (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- Create the buyers table
+CREATE TABLE buyers (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userId BIGINT UNSIGNED NOT NULL,
+    fullName VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    phoneNumber VARCHAR(20) NOT NULL,
+    wilaya VARCHAR(255),
+    active BOOLEAN DEFAULT TRUE,
+    evaluation INT DEFAULT 0,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Create the sellers table
+CREATE TABLE sellers (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userId BIGINT UNSIGNED NOT NULL,
+    fullName VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    phoneNumber VARCHAR(20) NOT NULL,
+    wilaya VARCHAR(255),
+    active BOOLEAN DEFAULT TRUE,
+    evaluation INT DEFAULT 0,
+    storeName VARCHAR(255) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+

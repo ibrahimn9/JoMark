@@ -1,0 +1,217 @@
+{
+  "welcomeScreen": {
+    "FR": {
+      "welcomeTitle": "Bienvenue",
+      "welcomeSubTitle1": "Découvrez des opportunités",
+      "welcomeSubTitle2": "illimitées avec",
+      "welcomeDesc": "JoMark est le choix idéal pour le commerce de gros. Engagez-vous avec des vendeurs compétents, découvrez un large gamme de produits, et faites grandir votre entreprise facilement.",
+      "getStartedBtn": "Commencer",
+      "loginBtn": "Se connecter"
+    },
+    "EN": {
+      "welcomeTitle": "Welcome",
+      "welcomeSubTitle1": "Discover Endless",
+      "welcomeSubTitle2": "Possibilities with",
+      "welcomeDesc": "JoMark is the perfect choice for wholesale trade. Engage with skilled sellers, discover a wide range of products, and grow your business effortlessly.",
+      "getStartedBtn": "Get Started",
+      "loginBtn": "Login"
+    },
+    "AR": {
+      "welcomeTitle": "مرحبا",
+      "welcomeSubTitle1": "اكتشف فرصا غير",
+      "welcomeSubTitle2": "محدودة مع",
+      "welcomeDesc": "JoMark هو الخيار المثالي للتجارة بالجملة . تواصل مع البائعين المختصين، واكتشف مجموعة كبيرة من المنتجات ، وقم بتوسيع أعمالك بسهولة",
+      "getStartedBtn": "ابدأ",
+      "loginBtn": "تسجيل الدخول"
+    }
+  },
+  "sellerOrBayerScreen": {
+    "EN": {
+      "questionTitle": "How do you plan to use Jomark?",
+      "sellerTitle": "Sell Products",
+      "sellerText": "List your products and reach more buyers",
+      "bayerTitle": "Buy Products",
+      "bayerText": "Explore a wide range of items from trusted sellers",
+      "nextBtn": "Next"
+    },
+    "FR": {
+      "questionTitle": "Comment comptez-vous utiliser Jomark ?",
+      "sellerTitle": "Vendre des produits",
+      "sellerText": "Listez vos produits",
+      "bayerTitle": "Acheter des produits",
+      "bayerText": "Explorez une large gamme d'articles",
+      "nextBtn": "Continue"
+    },
+    "AR": {
+      "questionTitle": "كيف تخطط لاستخدام Jomark؟",
+      "sellerTitle": "بيع المنتجات",
+      "sellerText": "قم بإدراج منتجاتك والوصول إلى المزيد من المشترين",
+      "bayerTitle": "شراء المنتجات",
+      "bayerText": "استكشف مجموعة واسعة من العناصر من البائعين الموثوقين",
+      "nextBtn": "المتابعة"
+    }
+  },
+  "chooseCategoryScreen": {
+    "EN": {
+      "1": "Women's Clothing",
+      "2": "Men's Clothing",
+      "3": "Shoes",
+      "4": "Sports & Entertainment",
+      "5": "Utensils",
+      "6": "Watches & Accessories",
+      "7": "Electronics",
+      "8": "Beauty & Personal Care",
+      "9": "Home & Furniture",
+      "10": "School & Supplies",
+      "11": "Maternity, Baby & Toys",
+      "12": "Groceries",
+      "13": "Other",
+      "title": "Select Your Product Category",
+      "applyBtn": "Apply"
+    },
+    "FR": {
+      "1": "Vêtements pour femmes",
+      "2": "Vêtements pour hommes",
+      "3": "Chaussures",
+      "4": "Sports & Divertissement",
+      "5": "Ustensiles",
+      "6": "Montres & Accessoires",
+      "7": "Électronique",
+      "8": "Beauté & Soins personnels",
+      "9": "Maison & Mobilier",
+      "10": "École & Fournitures",
+      "11": "Maternité, Bébé & Jouets",
+      "12": "Épicerie",
+      "13": "Autre",
+      "title": "Sélectionnez votre catégorie de produit",
+      "applyBtn": "Valider"
+    },
+    "AR": {
+      "1": "ملابس نسائية",
+      "2": "ملابس رجالية",
+      "3": "أحذية",
+      "4": "الرياضة والترفيه",
+      "5": "أواني",
+      "6": "ساعات وإكسسوارات",
+      "7": "إلكترونيات",
+      "8": "الجمال والعناية الشخصية",
+      "9": "المنزل والأثاث",
+      "10": "المدرسة واللوازم",
+      "11": "الأمومة والطفل والألعاب",
+      "12": "البقالة",
+      "13": "أخرى",
+      "title": "حدد فئة المنتج الخاص بك",
+      "applyBtn": "تأكيد"
+    }
+  },
+  "userInfoScreen": {
+    "EN": {
+      "title": "Enter Your Personal Information",
+      "fullnameLabel": "Fullname",
+      "fullnamePlaceholder": "Enter your fullname",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your emaill address",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "phoneNumberLabel": "Phone Number",
+      "phoneNumberPlaceholder": "Enter your phone number",
+      "fullnameError": "FullName must be atleast 5 characters",
+      "emailError": "Please enter a valid email address",
+      "passwordError": "Password must be at least 8 characters long",
+      "phoneNumberError": "Phone number must start with 07, 06, or 05 and contain 10 digits",
+      "continueBtn": "Continue"
+    },
+    "FR": {
+      "title": "Entrez vos informations personnelles",
+      "fullnameLabel": "Nom complet",
+      "fullnamePlaceholder": "Entrez votre nom complet",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Entrez votre adresse email",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "phoneNumberLabel": "Numéro de téléphone",
+      "phoneNumberPlaceholder": "Entrez votre numéro de téléphone",
+      "fullnameError": "Le nom complet doit comporter au moins 5 caractères.",
+      "emailError": "Veuillez entrer une adresse email valide",
+      "passwordError": "Le mot de passe doit contenir au moins 8 caractères",
+      "phoneNumberError": "Le numéro de téléphone doit commencer par 07, 06, ou 05 et contenir 10 chiffres",
+      "continueBtn": "Continuer"
+    },
+    "AR": {
+      "title": "أدخل معلوماتك الشخصية",
+      "fullnameLabel": "الاسم الكامل",
+      "fullnamePlaceholder": "أدخل اسمك الكامل",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "phoneNumberLabel": "رقم الهاتف",
+      "phoneNumberPlaceholder": "أدخل رقم هاتفك",
+      "fullnameError": "يجب أن يتكون الاسم الكامل من خمسة أحرف على الأقل.",
+      "emailError": "يرجى إدخال عنوان بريد إلكتروني صالح",
+      "passwordError": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
+      "phoneNumberError": "يجب أن يبدأ رقم الهاتف بـ 07 أو 06 أو 05 ويحتوي على 10 أرقام",
+      "continueBtn": "استمرار"
+    }
+  },
+  "storeInfoScreen": {
+    "EN": {
+      "title": "Enter Your Store Information",
+      "storePicLabel": "Store Picture",
+      "storeNameLabel": "Store Name",
+      "storeNamePlaceholder": "Enter your store's name",
+      "storeSloganLabel": "Store Slogan",
+      "storeSloganPlaceholder": "Enter your store's description",
+      "selectWilaya": "Select Wilaya",
+      "submitBtn": "Submit"
+    },
+    "FR": {
+      "title": "Entrez les informations de votre magasin",
+      "storePicLabel": "Photo du magasin",
+      "storeNameLabel": "Nom du magasin",
+      "storeNamePlaceholder": "Entrez le nom de votre magasin",
+      "storeSloganLabel": "Slogan du magasin",
+      "storeSloganPlaceholder": "Entrez la description de votre magasin",
+      "selectWilaya": "Sélectionner une Wilaya",
+      "submitBtn": "Soumettre"
+    },
+    "AR": {
+      "title": "أدخل معلومات متجرك",
+      "storePicLabel": "صورة المتجر",
+      "storeNameLabel": "اسم المتجر",
+      "storeNamePlaceholder": "أدخل اسم متجرك",
+      "storeSloganLabel": "شعار المتجر",
+      "storeSloganPlaceholder": "أدخل وصف متجرك",
+      "selectWilaya": "اختر الولاية",
+      "submitBtn": "إرسال"
+    }
+  },
+  "skipBtn": {
+    "EN": "Skip",
+    "FR": "Passer",
+    "AR": "تجاوز"
+  },
+  "tabElements": {
+    "EN": {
+      "home": "Home",
+      "store": "Store",
+      "product": "Product",
+      "orders": "Orders",
+      "messages": "Messages"
+    },
+    "FR": {
+      "home": "Accueil",
+      "store": "Magasin",
+      "product": "Produit",
+      "orders": "Commandes",
+      "messages": "Messages"
+    },
+    "AR": {
+      "home": "الرئيسية",
+      "store": "المتجر",
+      "product": "المنتج",
+      "orders": "الطلبات",
+      "messages": "الرسائل"
+    }
+  }
+}
