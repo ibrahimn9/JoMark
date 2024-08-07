@@ -113,9 +113,7 @@ const SignUp = asyncHandler(async (req, res, next) => {
     longitude,
     latitude,
   } = await req.body;
-  console.log(req.body);
   let user;
-  console.log("hi");
   if (isSeller) {
     user = new Seller(
       fullName || null,
@@ -198,7 +196,7 @@ const login = asyncHandler(async (req, res, next) => {
     userData.store = await store;
     const [categories] = await Category.findByStoreId(store.id);
     userData.store.categories = await categories.map((cat) => cat.id);
-    userData.email = email
+    userData.email = await email
     isSeller = true;
   }
   // Compare The password With The hashed Password In Database
@@ -232,7 +230,7 @@ const setNewPw = asyncHandler(async (req, res, next) => {
 
 const protect = asyncHandler(async (req, res, next) => {
   // 1) check if token exist
-  const token = req.header("Authorization")?.split(" ")[1];
+  const token = await req.header("Authorization")?.split(" ")[1];
   if (!token)
     return next(
       new ApiError(

@@ -17,7 +17,7 @@ const addReviewForStore = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {storeId} = req.params;
+    const {storeId} = await req.params;
     const {rating,text} = await req.body;
     const [result] = await ReviewStore.ReviewerExist(storeId,req.userId);
     if(result?.length !==0){
@@ -40,7 +40,7 @@ const deleteReviewForStore = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {reviewId} = req.params;
+    const {reviewId} = await req.params;
     await ReviewStore.deleteById(reviewId);
     res.status(200).json({
         success: true,
@@ -55,7 +55,7 @@ const updateReviewForStore = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {reviewId} = req.params;
+    const {reviewId} = await req.params;
     const {rating,text} = await req.body;
     await ReviewStore.updateReview(
         reviewId,
@@ -70,7 +70,7 @@ const updateReviewForStore = asyncHandler( async(req,res,next) => {
 })
 
 const getReviewForStore = asyncHandler(async(req,res,next)=>{
-    const {storeId} = req.params
+    const {storeId} = await req.params
     const [reviews] = await ReviewStore.findByStoreId(storeId);
     const [avg] = await ReviewStore.rateAVG(storeId);
     res.status(200).json({
@@ -81,7 +81,7 @@ const getReviewForStore = asyncHandler(async(req,res,next)=>{
 });
 
 const getReviewForProduct = asyncHandler(async(req,res,next)=>{
-    const {productId} = req.params
+    const {productId} = await req.params
     const [reviews] = await ReviewProduct.findByProductId(productId);
     const avg = await ReviewProduct.rateAVG(productId);
     res.status(200).json({
@@ -97,7 +97,7 @@ const addReviewForProduct = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {productId} = req.params;
+    const {productId} = await req.params;
     const {rating,text} = await req.body;
     const [result] = await ReviewProduct.ReviewerExist(productId,req.userId);
     if(result?.length !==0){
@@ -119,7 +119,7 @@ const deleteReviewForProduct = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {reviewId} = req.params;
+    const {reviewId} = await req.params;
     await ReviewProduct.deleteById(reviewId);
     res.status(200).json({
         success: true,
@@ -133,7 +133,7 @@ const updateReviewForProduct = asyncHandler( async(req,res,next) => {
             new ApiError("You are not allowed to access this route ", 403)
         );
     }
-    const {reviewId} = req.params;
+    const {reviewId} = await req.params;
     const {rating,text} = await req.body;
     await ReviewProduct.updateReview(
         reviewId,

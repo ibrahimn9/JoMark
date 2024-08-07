@@ -2,6 +2,8 @@ const ApiError = require("../utils/ApiError.js");
 const asyncHandler = require("express-async-handler");
 const Store = require('../model/store.model.js');
 const SCA = require("../model/store_category_association.model.js");
+const Category = require('../model/categories.model.js')
+const ReviewStore = require('../model/reviewStore.model.js');
 
 const editStore = asyncHandler(async (req,res,next)=>{
     if (!req.isSeller){
@@ -10,8 +12,7 @@ const editStore = asyncHandler(async (req,res,next)=>{
         );
     }
     const {name, picture, slogan,address,start,end,categories,longitude,latitude} = await req.body
-    console.log(req.body)
-    const {storeId} = req.params
+    const {storeId} = await req.params
     await Store.updateStore(storeId,
         name ||  null,
         picture || null,
@@ -33,7 +34,24 @@ const editStore = asyncHandler(async (req,res,next)=>{
         success: true,
         message: 'Store updated successfully',
     });
+});
+
+const getAllStores = asyncHandler(async (req,res,next) => {
+    const [stores] = await Store.fetchAll();
+    if (stores?.length) {
+        for (let store of stores) {
+            const [categories] = await Category.findByStoreId(store.id);
+            store.categories =  await categories.map((cat) => cat.id);;
+            store.rating = await ReviewStore.rateAVG(store.id);
+        }
+    }
+    res.status(200).json({
+        success: true,
+        data:stores,
+    });
 })
+
 module.exports={
-    editStore
+    editStore,
+    getAllStores
 }

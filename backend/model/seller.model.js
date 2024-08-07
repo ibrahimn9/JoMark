@@ -23,13 +23,14 @@ class Seller {
       [this.email]
     );
 
-    const userId = userResult.insertId;
+    const userId = await userResult.insertId;
 
     // Insert into sellers table
-    return db.execute(
+    const [selllerResult] = await db.execute(
       `INSERT INTO sellers (userId, fullName, password, phoneNumber) VALUES (?, ?, ?, ?)`,
       [userId, this.fullName, this.password, this.phoneNumber]
     );
+    return await selllerResult.insertId;
   }
 
   static fetchAll() {

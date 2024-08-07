@@ -10,6 +10,7 @@ const auth = require("./routes/auth.js");
 const seller = require("./routes/seller.js");
 const product = require('./routes/product.js');
 const store = require('./routes/store.js');
+const cart = require('./routes/cart.js');
 const ApiError = require("./utils/ApiError.js");
 
 const PORT = config.PORT;
@@ -34,6 +35,7 @@ app.use('/api/auth',auth);
 app.use('/api/seller',seller);
 app.use('/api/product',product);
 app.use('/api/store',store);
+app.use('/api/cart',cart);
 
 // For Unmounted Url
 app.all("*", (req, res, next) => {

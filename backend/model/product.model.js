@@ -58,6 +58,13 @@ class Product {
     static deleteById(id) {
         return db.execute("DELETE FROM products WHERE id = ?", [id]);
     }
+    
+    static fetchPaginated(page, limit) {
+        const offset = (page - 1) * limit;
+        return db.execute(
+            "SELECT * FROM products"
+        );
+    }
 }
 
 module.exports = Product;

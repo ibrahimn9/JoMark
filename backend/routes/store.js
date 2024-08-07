@@ -1,6 +1,7 @@
 const express = require("express");
 const {addReviewForStore,deleteReviewForStore,updateReviewForStore,getReviewForStore}= require("../controllers/review");
-const {editStore} = require('../controllers/store');
+const {editStore,getAllStores} = require('../controllers/store');
+const {getProductsByStore} = require('../controllers/product')
 const router = express.Router();
 const {protect} = require('../controllers/auth');
 
@@ -44,5 +45,23 @@ router.put('/:reviewId',protect,updateReviewForStore);
  * @access  seller
 ------------------------------------------------*/
 router.put('/:storeId/store',protect,editStore);
+
+/**-----------------------------------------------
+ * @desc    get store
+ * @route   /store/stores
+ * @method  GET
+ * @access  ALL
+------------------------------------------------*/
+router.get('/stores',getAllStores);
+
+
+/**-----------------------------------------------
+ * @desc    get products by store
+ * @route   /store/:storeId/products
+ * @method  GET
+ * @access  ALL
+------------------------------------------------*/
+router.get('/:storeId/products',getProductsByStore)
+
 
 module.exports = router;

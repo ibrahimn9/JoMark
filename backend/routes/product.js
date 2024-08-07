@@ -1,5 +1,5 @@
 const express = require("express");
-const {getProduct,deleteProduct, editProduct}= require("../controllers/product");
+const {getProduct,deleteProduct, editProduct,getProductsForBuyer}= require("../controllers/product");
 const {addReviewForProduct,updateReviewForProduct,deleteReviewForProduct,getReviewForProduct} = require("../controllers/review");
 const router = express.Router();
 const {protect} = require('../controllers/auth')
@@ -60,5 +60,14 @@ router.delete('/:reviewId/review',protect,deleteReviewForProduct);
  * @access  buyer
 ------------------------------------------------*/
 router.put('/:reviewId/review',protect,updateReviewForProduct);
+
+/**-----------------------------------------------
+ * @desc    get products
+ * @route   /product/products
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get('/product/products', getProductsForBuyer);
+
 
 module.exports = router;

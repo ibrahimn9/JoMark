@@ -23,10 +23,11 @@ class Buyer {
         const userId = userResult.insertId;
         
         // Insert into buyers table
-        return db.execute(
+        const [buyerResult] = await db.execute(
             `INSERT INTO buyers (userId, fullName, password, phoneNumber) VALUES (?, ?, ?, ?)`,
             [userId, this.fullName, this.password, this.phoneNumber]
         );
+        return await buyerResult.insertId;
     }
 
     static fetchAll() {
@@ -35,7 +36,7 @@ class Buyer {
 
     static findByEmail(email) {
         return db.execute(
-            `SELECT b.*, u.* FROM buyers b
+            `SELECT b.*, u.email FROM buyers b
              JOIN users u ON b.userId = u.id
              WHERE u.email = ?`, 
             [email]
