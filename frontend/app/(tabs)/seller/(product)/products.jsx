@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
+  Image,
 } from "react-native";
 import categories from "@/constants/categories";
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import * as ImagePicker from "expo-image-picker";
 import {
   SearchBar,
   CustomButton,
@@ -37,6 +39,8 @@ import {
   PanGestureHandler,
 } from "react-native-gesture-handler";
 import product from "../../../../services/product";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../../firebaseConfig";
 
 const SellerProducts = () => {
   const [searchText, setSearchText] = useState("");
@@ -54,6 +58,7 @@ const SellerProducts = () => {
     setIsLoading(true);
     try {
       const res = await seller.getProducts(userData.id, userToken);
+      console.log(res.data)
       setProducts(res.data.data);
       setFiltredProducts(res.data.data);
     } catch (error) {
@@ -93,6 +98,109 @@ const SellerProducts = () => {
     }
   };
 
+  // media
+
+  const [media, setMedia] = useState([]);
+  const [productProfile, setProductProfile] = useState(null);
+
+  const pickMedia = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsMultipleSelection: true,
+      selectionLimit: 10 - media?.length,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let selectedMedia = result.assets;
+
+      // Filter out duplicates
+      selectedMedia = selectedMedia.filter(
+        (item) => !media.some((m) => m.uri === item.uri)
+      );
+
+      // Show alert if no new media was added
+      if (selectedMedia.length === 0) {
+        Alert.alert(
+          "No new media selected or all selected media are duplicates."
+        );
+        return;
+      }
+
+      // Insert videos after the first image if media is not empty
+      let updatedMedia = [...media, ...selectedMedia].slice(0, 10);
+
+      // If there's a video in the beginning, swap it with the first image
+      if (updatedMedia[0]?.type === "video" && updatedMedia?.length > 1) {
+        const firstImageIndex = updatedMedia.findIndex(
+          (item) => item.type === "image"
+        );
+        if (firstImageIndex > 0) {
+          [updatedMedia[0], updatedMedia[firstImageIndex]] = [
+            updatedMedia[firstImageIndex],
+            updatedMedia[0],
+          ];
+        }
+      }
+
+      // Update product profile image if it's null or update based on media changes
+      if (updatedMedia.length > 0 && !productProfile) {
+        setProductProfile(updatedMedia[0]);
+      }
+
+      setMedia(updatedMedia);
+    }
+  };
+
+  const removeMedia = (index) => {
+    const updatedMedia = media.filter((_, i) => i !== index);
+
+    // Reset product profile if it was removed
+    if (media[index].uri === productProfile?.uri) {
+      setProductProfile(updatedMedia[0] || null);
+    }
+
+    setMedia(updatedMedia);
+  };
+
+  const selectProductProfile = (item) => {
+    if (item.type === "video") {
+      Alert.alert("Videos cannot be set as the product profile image.");
+      return;
+    }
+    setProductProfile(item);
+
+    // Move the selected item to the head of the media array
+    setMedia((prevMedia) => {
+      const updatedMedia = prevMedia.filter(
+        (mediaItem) => mediaItem.uri !== item.uri
+      );
+
+      const newMedia = [item, ...updatedMedia];
+
+      return newMedia;
+    });
+  };
+
+  const handleUploadMedia = async (media) => {
+    const uploadPromises = media.map(async (item) => {
+      if (item.uploaded) {
+        return item.uri;
+      } else {
+        const storageRef = ref(
+          storage,
+          `products/${item.uri.split("/").pop()}`
+        );
+        const img = await fetch(item.uri);
+        const bytes = await img.blob();
+        await uploadBytes(storageRef, bytes);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+      }
+    });
+    return Promise.all(uploadPromises);
+  };
+
   // Edit product
   const [productData, setProductData] = useState({
     name: "",
@@ -104,6 +212,7 @@ const SellerProducts = () => {
     special: false,
     storeId: userData?.store.id,
     categoryId: "",
+    documents: [],
   });
 
   const [selectedCategory, setSelectedCategory] = useState();
@@ -130,8 +239,10 @@ const SellerProducts = () => {
 
     setIsEditLoading(true);
     try {
+      const mediaUrls = await handleUploadMedia(media);
+      const documents = mediaUrls;
       const response = await product.editProduct(
-        productData,
+        { ...productData, documents },
         productData.id,
         userToken
       );
@@ -269,6 +380,7 @@ const SellerProducts = () => {
                 data={filtredProducts}
                 openBottomSheet={openBottomSheet}
                 setProductData={setProductData}
+                setMedia={setMedia}
               />
             </View>
           </View>
@@ -296,12 +408,81 @@ const SellerProducts = () => {
           <BottomSheetScrollView showsVerticalScrollIndicator={false}>
             <View>
               {bottomSheetComp === "edit" && (
-                <View className="flex items-center w-full">
+                <View className="flex items-center w-full pb-2">
                   <ScrollView
                     className="px-2"
                     showsVerticalScrollIndicator={false}
                     nestedScrollEnabled
                   >
+                    <View className="flex items-center mb-1 mt-2">
+                      {!media?.length && (
+                        <TouchableOpacity
+                          onPress={pickMedia}
+                          className={`w-full flex justify-center items-center h-[100px] border border-gray-300 p-4 rounded-lg bg-gray-100`}
+                        >
+                          <MaterialIcons
+                            name="add-to-photos"
+                            size={24}
+                            color="#7092a8"
+                          />
+                          <Text className="font-pregular text-accent-light">
+                            Add Photos or Videos
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      <View className="flex flex-row flex-wrap w-full ">
+                        {media?.length > 0 &&
+                          media.map((item, index) => (
+                            <TouchableOpacity
+                              onPress={() => selectProductProfile(item)}
+                              key={index}
+                            >
+                              <View
+                                key={index}
+                                className={`relative w-[75px] h-[75px] mr-2 mt-2 rounded-lg ${
+                                  item?.uri === productProfile?.uri
+                                    ? "border-2 border-accent"
+                                    : ""
+                                }`}
+                              >
+                                <Image
+                                  source={{ uri: item?.uri }}
+                                  className={`w-full h-full rounded-lg`}
+                                  resizeMode="cover"
+                                />
+                                <TouchableOpacity
+                                  onPress={() => removeMedia(index)}
+                                  className="absolute top-1 right-1 bg-white rounded-full"
+                                >
+                                  <Ionicons
+                                    name="close-circle-sharp"
+                                    size={18}
+                                    color="#253444"
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </TouchableOpacity>
+                          ))}
+                        {media?.length && media?.length < 10 ? (
+                          <TouchableOpacity
+                            onPress={pickMedia}
+                            className={`flex justify-center items-center w-[80px] h-[80px] mt-2 border border-gray-300 p-4 rounded-lg bg-gray-100`}
+                          >
+                            <MaterialIcons
+                              name="add-to-photos"
+                              size={24}
+                              color="#7092a8"
+                            />
+                          </TouchableOpacity>
+                        ) : (
+                          <></>
+                        )}
+                      </View>
+                    </View>
+                    <Text className="font-pregular text-xs text-dark-lighter mt-1">
+                      Photos: {media?.length}/10. Choose your listing's main
+                      photo first.
+                    </Text>
                     <FormField
                       value={productData.name}
                       title="Title"

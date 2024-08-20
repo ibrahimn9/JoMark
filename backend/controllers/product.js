@@ -6,7 +6,7 @@ const Store_category = require("../model/store_category_association.model.js");
 const Store = require("../model/store.model.js");
 const Document = require("../model/document.model.js");
 const Product = require("../model/product.model.js");
-const ReviewProduct = require('../model/reviewProduct.model.js');
+const ReviewProduct = require("../model/reviewProduct.model.js");
 const config = require("../utils/config.js");
 
 const addProduct = asyncHandler(async (req, res, next) => {
@@ -53,12 +53,12 @@ const getProducts = asyncHandler(async (req, res, next) => {
   const { sellerId } = await req.params;
   const [products] = await Product.findBySellerId(sellerId);
 
-  for(const product of products){
+  for (const product of products) {
     const [documents] = await Document.findByProductId(product.id);
-    const imageUrl = await documents?.length > 0 ? await documents[0].link : null;
-    product.imageUrl = await imageUrl;
+    const imageUrl = (await documents?.length) > 0 ? documents : null;
+    product.imageUrl = imageUrl;
   }
-  
+
   return res.status(200).json({
     success: true,
     data: [...products],
@@ -66,20 +66,38 @@ const getProducts = asyncHandler(async (req, res, next) => {
 });
 
 const getProductsForBuyer = asyncHandler(async (req, res, next) => {
+  const page = req.query.page ? parseInt(req.query.page, 50) : 1;
+  const limit = 50;
 
-  const page = req.query.page ? parseInt(req.query.page,10) : 1;
-  const limit = 1; 
-
-  const [products] = await Product.fetchPaginated(page,limit);
-  for(const product of products){
+  const [products] = await Product.fetchPaginated(page, limit);
+  for (const product of products) {
     const [documents] = await Document.findByProductId(product.id);
-    const imageUrl = await documents?.length > 0 ? await documents[0].link : null;
+    const imageUrl =
+      (await documents?.length) > 0 ? await documents[0].link : null;
     product.imageUrl = await imageUrl;
   }
 
   res.status(200).json({
-      success: true,
-      data: [...products],
+    success: true,
+    data: [...products],
+  });
+});
+
+const getProductsForLastWeek = asyncHandler(async (req, res, next) => {
+  const page = req.query.page ? parseInt(req.query.page, 10) : 1;
+  const limit = 50;
+
+  const [products] = await Product.findForLastWeek(page, limit);
+  for (const product of products) {
+    const [documents] = await Document.findByProductId(product?.id);
+    const imageUrl =
+      (await documents?.length) > 0 ? await documents[0].link : null;
+    product.imageUrl = await imageUrl;
+  }
+
+  res.status(200).json({
+    success: true,
+    data: [...products],
   });
 });
 
@@ -88,8 +106,8 @@ const getProduct = asyncHandler(async (req, res, next) => {
   const [[product]] = await Product.findById(productId);
   const [documents] = await Document.findByProductId(product.id);
   const [reviews] = await ReviewProduct.findByProductId(product.id);
-  product.reviews= [...reviews];
-  product.media = [...documents];
+  product.reviews = [...reviews];
+  product.media = documents.map((doc) => doc.link);
   res.status(200).json({
     success: true,
     data: product,
@@ -153,17 +171,18 @@ const editProduct = asyncHandler(async (req, res, next) => {
 const getProductsByStore = asyncHandler(async (req, res, next) => {
   const { storeId } = await req.params;
   const [products] = await Product.findByStoreId(storeId);
-  for(const product of products){
+  for (const product of products) {
     const [reviews] = await ReviewProduct.findByProductId(product.id);
-    product.reviews= [...reviews];
+    product.reviews = [...reviews];
     const [documents] = await Document.findByProductId(product.id);
-    const imageUrl = await documents?.length > 0 ? await documents[0].link : null;
+    const imageUrl =
+      (await documents?.length) > 0 ? await documents[0].link : null;
     product.imageUrl = await imageUrl;
   }
   res.status(200).json({
     success: true,
     data: [...products],
-});
+  });
 });
 
 module.exports = {
@@ -173,5 +192,6 @@ module.exports = {
   deleteProduct,
   editProduct,
   getProductsForBuyer,
-  getProductsByStore
+  getProductsByStore,
+  getProductsForLastWeek,
 };

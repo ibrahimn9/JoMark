@@ -8,10 +8,13 @@ const CustomSelectDropDown = ({
   containerStyles,
   placeholder,
   handleOnValueChange,
+  labelStyle,
 }) => {
   return (
     <View className={`${containerStyles}`}>
-      <Text className="text-base text-secondary-light font-pmedium mb-2">
+      <Text
+        className={`text-base text-secondary-light font-pmedium mb-2 ${labelStyle}`}
+      >
         {title}{" "}
       </Text>
       <RNPickerSelect

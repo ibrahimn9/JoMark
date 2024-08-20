@@ -20,8 +20,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 
 const Welcome = () => {
-  const { selectedLang, setSelectedLang, userData, setUserData } =
-    useGlobalContext();
+  const {
+    selectedLang,
+    setSelectedLang,
+    userData,
+    setUserData,
+    setIsBottomSheetOpened,
+  } = useGlobalContext();
   const selectedDict = dictionary.welcomeScreen[selectedLang];
 
   const { userToken, flag, setFlag, setUserToken } = useAuthContext();
@@ -63,6 +68,10 @@ const Welcome = () => {
     };
 
     isLoggedIn();
+  }, []);
+
+  useEffect(() => {
+    setIsBottomSheetOpened(false);
   }, []);
 
   if (isLoading) {
@@ -110,7 +119,9 @@ const Welcome = () => {
                 {selectedDict.welcomeSubTitle1}
                 {"\n"}
                 {selectedDict.welcomeSubTitle2}{" "}
-                <Text className="text-secondary-light font-psemibold">Jomark</Text>
+                <Text className="text-secondary-light font-psemibold">
+                  Jomark
+                </Text>
               </Text>
               <Image
                 source={images.path}

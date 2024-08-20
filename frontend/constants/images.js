@@ -11,6 +11,9 @@ import ring from "../assets/images/ring.jpg";
 import adv1 from "../assets/images/adv1.jpg";
 import adv2 from "../assets/images/adv2.jpg";
 import adv3 from "../assets/images/adv3.jpg";
+import pick from "../assets/images/pick.png";
+import target from "../assets/images/target.png";
+import guide from "../assets/images/guide.png";
 
 export default {
   logo,
@@ -26,4 +29,7 @@ export default {
   adv1,
   adv2,
   adv3,
+  pick,
+  target,
+  guide,
 };

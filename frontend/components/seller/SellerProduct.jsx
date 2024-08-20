@@ -14,7 +14,7 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import { useAuthContext } from "@/context/AuthProvider";
 import product from "@/services/product";
 
-const SellerProduct = ({ item, openBottomSheet, setProductData }) => {
+const SellerProduct = ({ item, openBottomSheet, setProductData, setMedia }) => {
   const [loading, setLoading] = useState(true);
   const { userToken } = useAuthContext();
   const { refreshProduct, setRefreshProduct, hide, setHide } =
@@ -60,19 +60,16 @@ const SellerProduct = ({ item, openBottomSheet, setProductData }) => {
     }
   };
 
-  console.log(item)
-
   return (
     <TouchableOpacity className="flex flex-row w-full px-4 py-6 border-t border-gray-lighter">
       <View className="w-[120px] mr-4">
-        {item.imageUrl ? (
+        {item.imageUrl?.length ? (
           <View className="rounded-md w-full h-[120px] bg-gray-200 justify-center items-center overflow-hidden">
             <Image
-              source={{ uri: item?.imageUrl }}
+              source={{ uri: item.imageUrl[0].link }}
               className="rounded-md w-full h-[165px]"
               onLoad={() => setLoading(false)}
               onError={() => setLoading(false)}
-              resizeMode="cover"
             />
             {loading && (
               <ActivityIndicator
@@ -83,7 +80,7 @@ const SellerProduct = ({ item, openBottomSheet, setProductData }) => {
             )}
           </View>
         ) : (
-          <View className="rounded-md w-full h-[165px] bg-gray-200 justify-center items-center">
+          <View className="rounded-md w-full h-[120px] bg-gray-200 justify-center items-center">
             <Text className="text-gray-700">No Image</Text>
           </View>
         )}
@@ -118,7 +115,15 @@ const SellerProduct = ({ item, openBottomSheet, setProductData }) => {
                   quantity: item.quantity?.toString(),
                   minQuantity: item.minQuantity?.toString(),
                   categoryId: item.categoryId,
+                  documents: item.imageUrl,
                 });
+                setMedia(
+                  item.imageUrl?.map((im) => ({
+                    uri: im.link,
+                    type: "image",
+                    uploaded: true,
+                  })) || []
+                );
                 openBottomSheet("edit", [100, 620]);
               }}
             >

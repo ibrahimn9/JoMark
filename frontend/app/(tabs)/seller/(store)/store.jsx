@@ -74,7 +74,7 @@ const SellerStore = () => {
     <GestureHandlerRootView>
       <SafeAreaView className="h-full">
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="bg-white  pb-4">
+          <View className="bg-white pb-4">
             <View className="w-full min-h-[85] bg-secondary" />
             <View className="z-[10] ml-5 mt-[-46] flex justify-center items-center h-[68px] w-[68px] border-[2px] border-dark-lighter rounded-full bg-gray-lighter">
               {storeData.picture ? (

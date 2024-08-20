@@ -20,6 +20,7 @@ const FormField = ({
   label,
   optional,
   drop,
+  textInputStyle,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +40,7 @@ const FormField = ({
         className={`w-full h-16 px-4  rounded-2xl border-2 border-dark-light focus:border-secondary flex flex-row items-center ${inputStyles}`}
       >
         <TextInput
-          className="flex-1 text-dark font-psemibold text-base"
+          className={`flex-1 text-dark font-psemibold text-base ${textInputStyle}`}
           value={value}
           placeholder={placeholder}
           placeholderTextColor="#7e90a4"

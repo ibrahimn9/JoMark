@@ -18,6 +18,10 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const home = () => {
   const { logout } = useAuthContext();
+  const { setIsBottomSheetOpened } = useGlobalContext();
+  useEffect(() => {
+    setIsBottomSheetOpened(false);
+  }, []);
   return (
     <View className="flex flex-1 justify-center items-center">
       <Text onPress={logout}>Logout</Text>

@@ -127,8 +127,6 @@ const EditStore = () => {
     }
   };
 
-  console.log(editObj);
-
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="relative bg-white h-full">
@@ -343,9 +341,14 @@ const EditStore = () => {
                       <CustomSelectButton
                         key={index}
                         handlePress={() => {
-                          let newCategories = editObj.categories?.concat(
-                            cat.id
-                          );
+                          let newCategories;
+                          if (editObj.categories.includes(cat.id)) {
+                            newCategories = editObj.categories?.filter(
+                              (ca) => cat.id !== ca
+                            );
+                          } else {
+                            newCategories = editObj.categories?.concat(cat.id);a
+                          }
                           setEditObj({ ...editObj, categories: newCategories });
                           setIsEdited(true); // Mark as edited
                         }}

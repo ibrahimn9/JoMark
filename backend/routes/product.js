@@ -1,8 +1,21 @@
 const express = require("express");
-const {getProduct,deleteProduct, editProduct,getProductsForBuyer}= require("../controllers/product");
-const {addReviewForProduct,updateReviewForProduct,deleteReviewForProduct,getReviewForProduct} = require("../controllers/review");
+const {
+  getProduct,
+  deleteProduct,
+  editProduct,
+  getProductsForBuyer,
+  getProductsForLastWeek,
+  getProductsByStore,
+} = require("../controllers/product");
+
+const {
+  addReviewForProduct,
+  updateReviewForProduct,
+  deleteReviewForProduct,
+  getReviewForProduct,
+} = require("../controllers/review");
 const router = express.Router();
-const {protect} = require('../controllers/auth')
+const { protect } = require("../controllers/auth");
 
 /**-----------------------------------------------
  * @desc    get product
@@ -10,7 +23,7 @@ const {protect} = require('../controllers/auth')
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get('/:productId',getProduct);
+router.get("/:productId", getProduct);
 
 /**-----------------------------------------------
  * @desc    delete product
@@ -18,7 +31,7 @@ router.get('/:productId',getProduct);
  * @method  DELETE
  * @access  seller
 ------------------------------------------------*/
-router.delete('/:productId',protect,deleteProduct);
+router.delete("/:productId", protect, deleteProduct);
 
 /**-----------------------------------------------
  * @desc    delete product
@@ -26,7 +39,7 @@ router.delete('/:productId',protect,deleteProduct);
  * @method  PUT
  * @access  seller
 ------------------------------------------------*/
-router.put('/:productId',protect,editProduct);
+router.put("/:productId", protect, editProduct);
 
 /**-----------------------------------------------
  * @desc    add new review
@@ -34,7 +47,7 @@ router.put('/:productId',protect,editProduct);
  * @method  POST
  * @access  buyer
 ------------------------------------------------*/
-router.post('/:productId/review',protect,addReviewForProduct);
+router.post("/:productId/review", protect, addReviewForProduct);
 
 /**-----------------------------------------------
  * @desc    get reviews
@@ -42,8 +55,7 @@ router.post('/:productId/review',protect,addReviewForProduct);
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get('/:productId/review',getReviewForProduct);
-
+router.get("/:productId/review", getReviewForProduct);
 
 /**-----------------------------------------------
  * @desc    delete review
@@ -51,7 +63,7 @@ router.get('/:productId/review',getReviewForProduct);
  * @method  DELETE
  * @access  buyer
 ------------------------------------------------*/
-router.delete('/:reviewId/review',protect,deleteReviewForProduct);
+router.delete("/:reviewId/review", protect, deleteReviewForProduct);
 
 /**-----------------------------------------------
  * @desc    update review
@@ -59,7 +71,7 @@ router.delete('/:reviewId/review',protect,deleteReviewForProduct);
  * @method  PUT
  * @access  buyer
 ------------------------------------------------*/
-router.put('/:reviewId/review',protect,updateReviewForProduct);
+router.put("/:reviewId/review", protect, updateReviewForProduct);
 
 /**-----------------------------------------------
  * @desc    get products
@@ -67,7 +79,22 @@ router.put('/:reviewId/review',protect,updateReviewForProduct);
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get('/product/products', getProductsForBuyer);
+router.get("/product/products", getProductsForBuyer);
 
+/**-----------------------------------------------
+ * @desc    get products that was created last week
+ * @route   /product/lastWeek
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get("/product/lastWeek", getProductsForLastWeek);
+
+/**-----------------------------------------------
+ * @desc    get store products
+ * @route   /product/store/:storeId
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get("/product/store/:storeId", getProductsByStore);
 
 module.exports = router;

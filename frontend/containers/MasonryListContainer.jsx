@@ -20,7 +20,7 @@ const LoadingView = ({ index }) => {
   );
 };
 
-const MasonryListContainer = ({ loading, data }) => {
+const MasonryListContainer = ({ loading, data, showDate }) => {
   if (loading) {
     return (
       <View className="px-2 flex flex-row flex-wrap">
@@ -37,7 +37,7 @@ const MasonryListContainer = ({ loading, data }) => {
       numColumns={2}
       contentContainerStyle={{ paddingHorizontal: 16 }}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item, i }) => <ProductItem item={item} index={i} />}
+      renderItem={({ item, i }) => <ProductItem item={item} showDate={showDate} index={i} />}
       refreshing={false}
       LoadingView={() => <LoadingView />}
     />

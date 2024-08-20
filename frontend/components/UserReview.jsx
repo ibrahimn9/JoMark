@@ -45,7 +45,7 @@ const UserReview = () => {
         <View className="ml-4 flex-1">
           <Text>C**a</Text>
           <Text className="text-xs text-gray-500 mb-1">Jul 17, 2024</Text>
-          <StarRating rating={4.7} />
+          <StarRating rating={4.7} color="#fd7014" />
           <Text
             onTextLayout={onTextLayout}
             numberOfLines={expanded ? undefined : 5}

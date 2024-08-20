@@ -37,7 +37,8 @@ import { storage } from "../../../../firebaseConfig";
 import seller from "../../../../services/seller";
 
 const NewProduct = () => {
-  const { userData, showTabs, hideTabs } = useGlobalContext();
+  const { userData, showTabs, hideTabs, setRefreshProduct, refreshProduct } =
+    useGlobalContext();
   const { userToken } = useAuthContext();
   const [media, setMedia] = useState([]);
   const [productProfile, setProductProfile] = useState(null);
@@ -128,7 +129,9 @@ const NewProduct = () => {
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
 
-  const initialSnapPoints = [100, 500];
+  const initialSnapPoints =
+    bottomSheetComp === "success-edit" ? [200, 200] : [100, 500];
+
   const openBottomSheet = (comp) => {
     setIsBottomSheetOpened(true);
     setBottomSheetComp(comp);
@@ -210,7 +213,7 @@ const NewProduct = () => {
       newErrors.minQuantity = "Min Order Qte is required";
     if (!productData.quantity)
       newErrors.quantity = "Stock Quantity is required";
-    if (!productData.categoryId) newErrors.categoryId = "Category is required";
+    if (!selectedCategory) newErrors.categoryId = "Category is required";
 
     if (Object.keys(newErrors).length > 0 || !media.length) {
       setErrors(newErrors);
@@ -221,7 +224,7 @@ const NewProduct = () => {
     setIsLoading(true);
     try {
       const mediaUrls = await handleUploadMedia(media);
-      const documents = mediaUrls.map((url) => ({ link: url }));
+      const documents = mediaUrls;
       const response = await seller.createProduct(
         {
           ...productData,
@@ -231,6 +234,8 @@ const NewProduct = () => {
         userData.id,
         userToken
       );
+      setRefreshProduct(!refreshProduct);
+      openBottomSheet("success-edit");
     } catch (error) {
       console.error("Error adding product:", error);
       Alert.alert("Error adding product");
@@ -307,6 +312,7 @@ const NewProduct = () => {
                   media.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => selectProductProfile(item)}
+                      key={index}
                     >
                       <View
                         key={index}
@@ -399,6 +405,7 @@ const NewProduct = () => {
                     inputStyles="border-[1px] border-accent-lighter h-14 rounded-md focus:border-primary"
                     otherStyles="space-y-0"
                     error={errors.minQuantity}
+                    keyboardType="numeric"
                   />
                 </View>
               </View>
@@ -411,6 +418,7 @@ const NewProduct = () => {
                 inputStyles="border-[1px] border-accent-lighter h-14 rounded-md focus:border-primary"
                 otherStyles="space-y-0"
                 error={errors.quantity}
+                keyboardType="numeric"
               />
               <TouchableWithoutFeedback
                 onPress={() => openBottomSheet("category")}
@@ -521,6 +529,18 @@ const NewProduct = () => {
                   </ScrollView>
                 </View>
               )}
+              {bottomSheetComp === "success-edit" && (
+                <View className="items-center p-4">
+                  <Ionicons
+                    name="checkmark-done-circle-outline"
+                    size={64}
+                    color="#1DCC79"
+                  />
+                  <Text className="font-pmedium mt-2 px-12 text-center text-lg">
+                    Product has been added successfully
+                  </Text>
+                </View>
+              )}
             </View>
           </BottomSheetScrollView>
         </BottomSheet>
@@ -530,7 +550,3 @@ const NewProduct = () => {
 };
 
 export default NewProduct;
-
-
-
-

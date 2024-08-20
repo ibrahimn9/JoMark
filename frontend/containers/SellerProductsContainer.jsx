@@ -7,6 +7,7 @@ const SellerProductsContainer = ({
   data,
   openBottomSheet,
   setProductData,
+  setMedia,
 }) => {
   return (
     <FlatList
@@ -16,6 +17,7 @@ const SellerProductsContainer = ({
           item={item}
           openBottomSheet={openBottomSheet}
           setProductData={setProductData}
+          setMedia={setMedia}
         />
       )}
       keyExtractor={(item) => item.id}
