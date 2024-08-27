@@ -23,6 +23,7 @@ import {
 } from "@/containers";
 import { router } from "expo-router";
 import productService from "@/services/product";
+import { TouchableOpacity } from "react-native";
 
 const Home = () => {
   const { logout } = useAuthContext();
@@ -83,7 +84,10 @@ const Home = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           className="px-4 pt-[62]"
-          style={{ backgroundColor: selectedColor }}
+          style={{
+            paddingBottom: selectedTab === "Discover Stores" && 16,
+            backgroundColor: selectedColor,
+          }}
         >
           <View className="flex flex-row justify-between items-center">
             <View className="flex-row items-center">
@@ -102,14 +106,16 @@ const Home = () => {
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
           />
-          <View className="flex flex-row justify-between items-center bg-white p-1 rounded-full">
-            <Text className="ml-4 font-pregular mt-[1px] text-dark-lighter text-xs">
-              Find what you're looking for...
-            </Text>
-            <View className="bg-dark px-3 py-1 rounded-full">
-              <Feather name="search" size={24} color="white" />
+          <TouchableOpacity onPress={() => router.push("/buyer/search")}>
+            <View className="flex flex-row justify-between items-center bg-white p-1 rounded-full">
+              <Text className="ml-4 font-pregular mt-[1px] text-dark-lighter text-xs">
+                Find what you're looking for...
+              </Text>
+              <View className="bg-dark px-3 py-1 rounded-full">
+                <Feather name="search" size={24} color="white" />
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <LinearGradient
           colors={[selectedColor, "#f5f5f5"]}
@@ -165,13 +171,15 @@ const Home = () => {
         </LinearGradient>
         {selectedTab === "Products" && (
           <View>
-            <ProductHorizentalContainer
-              title="New Arrivals"
-              sub="Shop the Newest Collections"
-              handleOpenPress={() => router.push("/buyer/new-arrivals")}
-              data={newArrivals?.slice(0, 10)}
-              isLoading={isNewArrivalsLoading}
-            />
+            {newArrivals.length > 0 && (
+              <ProductHorizentalContainer
+                title="New Arrivals"
+                sub="Shop the Newest Collections"
+                handleOpenPress={() => router.push("/buyer/new-arrivals")}
+                data={newArrivals?.slice(0, 10)}
+                isLoading={isNewArrivalsLoading}
+              />
+            )}
             <ProductHorizentalContainer
               title="Top Ranking"
               sub="Explore Trends with Data-Backed Rankings"

@@ -41,7 +41,7 @@ const BuyerLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             backgroundColor: "#fff",
-            height: !isBottomSheetOpened && areTabsVisible ? 58 : 0,
+            height: areTabsVisible ? 58 : 0,
             shadowColor: "none",
             borderWidth: 0,
             zIndex: 1,

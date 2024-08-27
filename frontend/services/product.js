@@ -34,6 +34,18 @@ const getProductByStore = async (storeId) => {
   return await axios.get(`${baseUrl}/product/store/${storeId}`);
 };
 
+const getProductByCategory = async (categoryId) => {
+  return await axios.get(`${baseUrl}/product/category/${categoryId}`);
+};
+
+const getProductBySearch = async (expression) => {
+  return await axios.get(`${baseUrl}/product/search/${expression}`);
+};
+
+const getSuggestion = async (word) => {
+  return await axios.get(`${baseUrl}/product/suggest/${word}`);
+};
+
 export default {
   editProduct,
   deleteProduct,
@@ -41,4 +53,7 @@ export default {
   getProductsForBuyer,
   getProductById,
   getProductByStore,
+  getProductByCategory,
+  getProductBySearch,
+  getSuggestion,
 };
