@@ -129,6 +129,19 @@ class Product {
     const offset = (page - 1) * limit;
     return db.execute(`SELECT * FROM products LIMIT ${limit} OFFSET ${offset}`);
   }
+
+  static findByCategoryId(id,page, limit){
+    const offset = (page - 1) * limit;
+    return db.execute(`SELECT * FROM products where categoryId = ${id} LIMIT ${limit} OFFSET ${offset}`);
+  }
+  static findForSearch(exp,page, limit){
+    const offset = (page - 1) * limit;
+    return db.execute(`SELECT * FROM products where SOUNDEX(name)=SOUNDEX('${exp}') OR name LIKE '%${exp}%' LIMIT ${limit} OFFSET ${offset}`);
+  }
+
+  static findSuggestion(word){
+    return db.execute(`SELECT id, name, FindMatchingWord('${word}', name) AS MatchingWord FROM products WHERE FindMatchingWord('${word}', name) IS NOT NULL`)
+  }
 }
 
 module.exports = Product;

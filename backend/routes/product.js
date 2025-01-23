@@ -6,6 +6,9 @@ const {
   getProductsForBuyer,
   getProductsForLastWeek,
   getProductsByStore,
+  getProductsByCategory,
+  getProductsForSearch,
+  getSuggestion
 } = require("../controllers/product");
 
 const {
@@ -75,7 +78,7 @@ router.put("/:reviewId/review", protect, updateReviewForProduct);
 
 /**-----------------------------------------------
  * @desc    get products
- * @route   /product/products
+ * @route   /product/product/products
  * @method  GET
  * @access  public
 ------------------------------------------------*/
@@ -83,7 +86,7 @@ router.get("/product/products", getProductsForBuyer);
 
 /**-----------------------------------------------
  * @desc    get products that was created last week
- * @route   /product/lastWeek
+ * @route   /product/product/lastWeek
  * @method  GET
  * @access  public
 ------------------------------------------------*/
@@ -91,10 +94,33 @@ router.get("/product/lastWeek", getProductsForLastWeek);
 
 /**-----------------------------------------------
  * @desc    get store products
- * @route   /product/store/:storeId
+ * @route   /product/product/store/:storeId
  * @method  GET
  * @access  public
 ------------------------------------------------*/
 router.get("/product/store/:storeId", getProductsByStore);
+
+/**-----------------------------------------------
+ * @desc    get  products by categories
+ * @route   /product/product/category/:categoryId
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get("/product/category/:categoryId",getProductsByCategory );
+
+/**-----------------------------------------------
+ * @desc    get  products by search
+ * @route   /product/product/search
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get("/product/search",getProductsForSearch );
+/**-----------------------------------------------
+ * @desc    get  products by search
+ * @route   /product/product/suggest
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get("/product/suggest",getSuggestion );
 
 module.exports = router;

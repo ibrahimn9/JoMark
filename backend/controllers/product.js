@@ -66,7 +66,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
 });
 
 const getProductsForBuyer = asyncHandler(async (req, res, next) => {
-  const page = req.query.page ? parseInt(req.query.page, 50) : 1;
+  const page = req.query.page ? parseInt(req.query.page, 10) : 1;
   const limit = 50;
 
   const [products] = await Product.fetchPaginated(page, limit);
@@ -80,8 +80,50 @@ const getProductsForBuyer = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: [...products],
+    page:page
   });
 });
+
+const getProductsByCategory = asyncHandler(async(req,res,next) => {
+  const page = req.query.page ? parseInt(req.query.page, 10) : 1;
+  const limit = 50;
+  const {categoryId} = req.params;
+
+  const [products] = await Product.findByCategoryId(categoryId,page,limit);
+  for (const product of products) {
+    const [documents] = await Document.findByProductId(product.id);
+    const imageUrl =
+      (await documents?.length) > 0 ? await documents[0].link : null;
+    product.imageUrl = await imageUrl;
+  }
+
+  res.status(200).json({
+    success: true,
+    data: [...products],
+    page:page
+  });
+})
+
+const getProductsForSearch = asyncHandler(async(req,res,next) => {
+  const page = req.query.page ? parseInt(req.query.page, 10) : 1;
+  const limit = 50;
+  const {expression} = req.body;
+
+  const [products] = await Product.findForSearch(expression,page,limit);
+  for (const product of products) {
+    const [documents] = await Document.findByProductId(product.id);
+    const imageUrl =
+      (await documents?.length) > 0 ? await documents[0].link : null;
+    product.imageUrl = await imageUrl;
+  }
+
+  res.status(200).json({
+    success: true,
+    data: [...products],
+    page:page
+  });
+})
+
 
 const getProductsForLastWeek = asyncHandler(async (req, res, next) => {
   const page = req.query.page ? parseInt(req.query.page, 10) : 1;
@@ -98,6 +140,7 @@ const getProductsForLastWeek = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: [...products],
+    page:page
   });
 });
 
@@ -185,6 +228,15 @@ const getProductsByStore = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getSuggestion = asyncHandler(async(req,res,next) => {
+  const {word} = await req.body;
+  const [data] = await Product.findSuggestion(word);
+  res.status(200).json({
+    success: true,
+    data: data,
+  });
+})
+
 module.exports = {
   addProduct,
   getProducts,
@@ -194,4 +246,7 @@ module.exports = {
   getProductsForBuyer,
   getProductsByStore,
   getProductsForLastWeek,
+  getProductsByCategory,
+  getProductsForSearch,
+  getSuggestion
 };

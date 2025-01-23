@@ -11,6 +11,7 @@ const seller = require("./routes/seller.js");
 const product = require('./routes/product.js');
 const store = require('./routes/store.js');
 const cart = require('./routes/cart.js');
+const order = require('./routes/order.js');
 const ApiError = require("./utils/ApiError.js");
 
 const PORT = config.PORT;
@@ -36,6 +37,7 @@ app.use('/api/seller',seller);
 app.use('/api/product',product);
 app.use('/api/store',store);
 app.use('/api/cart',cart);
+app.use('/api/order',order);
 
 // For Unmounted Url
 app.all("*", (req, res, next) => {
