@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://192.168.1.7:4000/api/product";
+const baseUrl = "http://192.168.1.38:4000/api/product";
 
 const editProduct = async (body, productId, userToken) => {
   return await axios.put(`${baseUrl}/${productId}`, body, {

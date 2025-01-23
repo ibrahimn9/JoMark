@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://192.168.1.7:4000/api/auth";
+const baseUrl = "http://192.168.1.38:4000/api/auth";
 
 const signUp = async (body) => {
   return await axios.post(`${baseUrl}/signup`, body);
