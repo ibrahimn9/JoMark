@@ -58,7 +58,7 @@ const SellerProducts = () => {
     setIsLoading(true);
     try {
       const res = await seller.getProducts(userData.id, userToken);
-      console.log(res.data)
+      console.log(res.data);
       setProducts(res.data.data);
       setFiltredProducts(res.data.data);
     } catch (error) {
@@ -74,7 +74,7 @@ const SellerProducts = () => {
   }, [refreshProduct]);
 
   // Bottom sheet
-  const [isBottomSheetOpened, setIsBottomSheetOpened] = useState(false);
+  const [isBottomSheetOpened, setIsBottomSheetOpened] = useGlobalContext();
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
 
@@ -83,11 +83,11 @@ const SellerProducts = () => {
   const openBottomSheet = (comp, snap) => {
     setBottomSheetComp(comp);
     setInitialSnapPoints(snap);
+    hideTabs();
     if (bottomSheetRef.current) {
       bottomSheetRef.current.snapToIndex(1);
     }
     setIsBottomSheetOpened(true);
-    hideTabs();
   };
 
   const closeBottomSheet = () => {

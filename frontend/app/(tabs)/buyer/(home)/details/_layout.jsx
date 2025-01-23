@@ -4,9 +4,11 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const DetailsLayout = () => {
   const [isOpened, setIsOpened] = useState(false);
+  const { areTabsVisible, isBottomSheetOpened } = useGlobalContext();
   return (
     <>
       <Stack>
@@ -63,6 +65,11 @@ const DetailsLayout = () => {
                 </TouchableOpacity>
               ) : null,
             headerTitle: "",
+            headerStyle: {
+              backgroundColor: isBottomSheetOpened
+                ? "rgba(0, 0, 0, 0.38)"
+                : "#fff",
+            },
           }}
         />
       </Stack>

@@ -26,6 +26,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useHeaderBackground from "@/hooks/useHeaderBackground";
 
 const SellerOrBayer = () => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -42,9 +43,11 @@ const SellerOrBayer = () => {
   const selectedDict = dictionary.sellerOrBayerScreen[selectedLang];
 
   // Bottom sheet
-  const [isBottomSheetOpened, setIsBottomSheetOpened] = useState(false);
+  const [isBottomSheetOpened, setIsBottomSheetOpened] = useGlobalContext();
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
+
+
 
   const initialSnapPoints = [280, 300];
 

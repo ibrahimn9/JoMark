@@ -8,7 +8,7 @@ const {
   getProductsByStore,
   getProductsByCategory,
   getProductsForSearch,
-  getSuggestion
+  getSuggestion,
 } = require("../controllers/product");
 
 const {
@@ -102,11 +102,11 @@ router.get("/product/store/:storeId", getProductsByStore);
 
 /**-----------------------------------------------
  * @desc    get  products by categories
- * @route   /product/product/category/:categoryId
+ * @route   /product/category/:categoryId
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get("/product/category/:categoryId",getProductsByCategory );
+router.get("/product/category/:categoryId", getProductsByCategory);
 
 /**-----------------------------------------------
  * @desc    get  products by search
@@ -114,13 +114,14 @@ router.get("/product/category/:categoryId",getProductsByCategory );
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get("/product/search",getProductsForSearch );
+router.get("/product/search/:expression", getProductsForSearch);
+
 /**-----------------------------------------------
  * @desc    get  products by search
  * @route   /product/product/suggest
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get("/product/suggest",getSuggestion );
+router.get("/product/suggest/:word", getSuggestion);
 
 module.exports = router;

@@ -26,11 +26,19 @@ import {
   PanGestureHandler,
 } from "react-native-gesture-handler";
 import categories from "@/constants/categories";
+import { useFocusEffect } from "@react-navigation/native";
+import useHeaderBackground from "@/hooks/useHeaderBackground";
 
 const NewArrivals = () => {
   const { showTabs, hideTabs } = useGlobalContext();
 
- 
+  useFocusEffect(
+    React.useCallback(() => {
+      hideTabs();
+      return () => showTabs();
+    }, [])
+  );
+
   // fetch new arrivals
 
   const [newArrivals, setNewArrivals] = useState([]);
@@ -79,16 +87,18 @@ const NewArrivals = () => {
   };
 
   // Bottom sheet
-  const { isBottomSheetOpened, setIsBottomSheetOpened } =
-    useGlobalContext(false);
+  const { isBottomSheetOpened, setIsBottomSheetOpened } = useGlobalContext();
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
+
+
 
   const [initialSnapPoints, setInitialSnapPoints] = useState([100, 200]);
 
   const openBottomSheet = (comp, snap) => {
     setBottomSheetComp(comp);
     setInitialSnapPoints(snap);
+    hideTabs();
     if (bottomSheetRef.current) {
       bottomSheetRef.current.snapToIndex(1);
     }

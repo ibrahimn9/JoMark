@@ -77,7 +77,7 @@ const EditStore = () => {
     return null;
   };
 
-  const { isBottomSheetOpened, setIsBottomSheetOpened } = useGlobalContext();
+  const { isBottomSheetOpened, setIsBottomSheetOpened, hideTabs, showTabs } = useGlobalContext();
 
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
@@ -87,13 +87,15 @@ const EditStore = () => {
   const openBottomSheet = (comp) => {
     setIsBottomSheetOpened(true);
     setBottomSheetComp(comp);
+    hideTabs()
     if (bottomSheetRef.current) {
       bottomSheetRef.current.snapToIndex(1);
     }
   };
 
   const closeBottomSheet = () => {
-    setIsBottomSheetOpened(false);
+    setIsBottomSheetOpened(false); 
+    showTabs()
     if (bottomSheetRef.current) {
       bottomSheetRef.current.close();
     }

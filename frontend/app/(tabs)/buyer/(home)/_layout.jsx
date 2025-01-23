@@ -1,5 +1,9 @@
-import { Redirect, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { View, TouchableOpacity, Text } from "react-native";
+import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useState } from "react";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
 const StoreLayout = () => {
@@ -24,7 +28,7 @@ const StoreLayout = () => {
             },
             headerStyle: {
               backgroundColor: isBottomSheetOpened
-                ? "rgba(0, 0, 0, 0.4)"
+                ? "rgba(0, 0, 0, 0.38)"
                 : "#fff",
             },
           }}
@@ -33,6 +37,12 @@ const StoreLayout = () => {
           name="details"
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="search"
+          options={{
+            headerShown: false
           }}
         />
       </Stack>

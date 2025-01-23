@@ -32,16 +32,20 @@ import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from "react-native-gesture-handler";
+import { useFocusEffect } from "@react-navigation/native";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const ProductDetails = () => {
   const { showTabs, hideTabs } = useGlobalContext();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    hideTabs();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      hideTabs()
+      return () => showTabs();
+    }, [])
+  );
 
   const { id } = useLocalSearchParams();
   const [isProductLoading, setIsProductLoading] = useState(false);
@@ -130,8 +134,7 @@ const ProductDetails = () => {
   }, [isHeaderTransparent]);
 
   // Bottom sheet
-  const { isBottomSheetOpened, setIsBottomSheetOpened } =
-    useGlobalContext(false);
+  const { isBottomSheetOpened, setIsBottomSheetOpened } = useGlobalContext();
   const bottomSheetRef = useRef(null);
   const [bottomSheetComp, setBottomSheetComp] = useState("");
 
@@ -140,6 +143,7 @@ const ProductDetails = () => {
   const openBottomSheet = (comp, snap) => {
     setBottomSheetComp(comp);
     setInitialSnapPoints(snap);
+    hideTabs();
     if (comp === "cart") setQuantity(product.minQuantity);
     if (bottomSheetRef.current) {
       bottomSheetRef.current.snapToIndex(1);
@@ -374,7 +378,7 @@ const ProductDetails = () => {
           enablePanDownToClose={true}
           onClose={() => closeBottomSheet()}
           containerStyle={{
-            zIndex: 1800,
+            zIndex: 150,
           }}
         >
           {bottomSheetComp === "storeProducts" && (
