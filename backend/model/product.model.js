@@ -47,7 +47,7 @@ class Product {
 
   static findById(id) {
     return db.execute(
-      "SELECT p.id , p.name , p.description, p.price, p.quantity, p.tags, p.minQuantity, p.dateCreation, p.special, s.id AS storeId,s.name AS storeName, c.id AS categoryId ,c.name AS categoryName FROM products p JOIN stores s ON p.storeId = s.id JOIN categories c ON p.categoryId = c.id JOIN sellers se ON s.sellerId = se.id WHERE p.id = ?",
+      "SELECT p.id , p.name , p.description, p.price,p.likesCount, p.quantity, p.tags, p.minQuantity, p.dateCreation, p.special, s.id AS storeId,s.name AS storeName, c.id AS categoryId ,c.name AS categoryName FROM products p JOIN stores s ON p.storeId = s.id JOIN categories c ON p.categoryId = c.id JOIN sellers se ON s.sellerId = se.id WHERE p.id = ?",
       [id]
     );
   }

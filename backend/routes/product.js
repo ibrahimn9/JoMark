@@ -9,6 +9,7 @@ const {
   getProductsByCategory,
   getProductsForSearch,
   getSuggestion,
+  likeForProduct
 } = require("../controllers/product");
 
 const {
@@ -26,7 +27,7 @@ const { protect } = require("../controllers/auth");
  * @method  GET
  * @access  public
 ------------------------------------------------*/
-router.get("/:productId", getProduct);
+router.get("/:productId",protect, getProduct);
 
 /**-----------------------------------------------
  * @desc    delete product
@@ -123,5 +124,13 @@ router.get("/product/search/:expression", getProductsForSearch);
  * @access  public
 ------------------------------------------------*/
 router.get("/product/suggest/:word", getSuggestion);
+
+/**-----------------------------------------------
+ * @desc    like product
+ * @route   /product/like/:productId
+ * @method  PUT
+ * @access  buyer
+------------------------------------------------*/
+router.put("/like/:productId", protect, likeForProduct);
 
 module.exports = router;

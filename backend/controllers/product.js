@@ -5,6 +5,7 @@ const Buyer = require("../model/buyer.model.js");
 const Store_category = require("../model/store_category_association.model.js");
 const Store = require("../model/store.model.js");
 const Document = require("../model/document.model.js");
+const likeProduct = require('../model/likeProduct.model.js');
 const Product = require("../model/product.model.js");
 const ReviewProduct = require("../model/reviewProduct.model.js");
 const config = require("../utils/config.js");
@@ -112,10 +113,21 @@ const getProduct = asyncHandler(async (req, res, next) => {
   const [reviews] = await ReviewProduct.findByProductId(product.id);
   product.reviews = [...reviews];
   product.media = documents.map((doc) => doc.link);
-  res.status(200).json({
-    success: true,
-    data: product,
-  });
+  const [[productLike]] = await likeProduct.findByBuyerIdAndProductId(req.userId ||null,productId);
+
+  if(productLike){
+    res.status(200).json({
+      success: true,
+      data: product,
+      liked:productLike.like
+    });
+  }else{
+    res.status(200).json({
+      success: true,
+      data: product,
+      liked:false
+    });
+  }
 });
 
 const deleteProduct = asyncHandler(async (req, res, next) => {
@@ -236,6 +248,35 @@ const getSuggestion = asyncHandler(async (req, res, next) => {
   });
 });
 
+const likeForProduct = asyncHandler(async (req, res, next) => {
+  if (req.isSeller) {
+    return next(new ApiError("You are not allowed to access this route ", 403));
+  }
+  const {productId} = req.params;
+  const buyerId = req.userId;
+
+  const [[likeP]] = await likeProduct.findByBuyerIdAndProductId(buyerId,productId);
+  if(likeP){
+    await likeProduct.updateLikeProduct(likeP.id,!likeP.like);
+    const [[product]] = await Product.findById(productId); 
+    res.status(203).json({
+      success: true,
+      message: "Product like/unliked successfully",
+      likesCount: product.likesCount
+    });
+  }else{
+    const productLike = new likeProduct(buyerId,productId);
+    await productLike.save();
+    const [[product]] = await Product.findById(productId); 
+    res.status(201).json({
+      success: true,
+      message: "Product liked successfully",
+      likesCount: product.likesCount
+    });
+  }
+
+})
+
 module.exports = {
   addProduct,
   getProducts,
@@ -248,4 +289,5 @@ module.exports = {
   getProductsByCategory,
   getProductsForSearch,
   getSuggestion,
+  likeForProduct,
 };
