@@ -12,6 +12,22 @@ class Category_Store{
             [this.storeId, this.categoryId]
         );
     }
+
+    static async saveMany(categories) {
+        if (!categories.length) return;
+
+        // Create placeholders for each category
+        const placeholders = await categories.map(() => "(?, ?)").join(", ");
+        const values = await categories.flatMap(({ storeId, categoryId }) => [
+        storeId,
+        categoryId,
+        ]);
+
+        return db.execute(
+        `INSERT INTO store_category_association (storeId, categoryId) VALUES ${placeholders}`,
+        values
+        );
+    }
     
     static fetchAll() {
         return db.execute("SELECT * FROM store_category_association");

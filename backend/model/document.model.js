@@ -13,6 +13,19 @@ class Document {
         );
     }
 
+    static async saveMany(documents) {
+        if (!documents.length) return;
+
+        // Create placeholders for each document
+        const placeholders = documents.map(() => "(?, ?)").join(", ");
+        const values = documents.flatMap(({ link, productId }) => [link, productId]);
+
+        return db.execute(
+        `INSERT INTO documents (link, productId) VALUES ${placeholders}`,
+        values
+        );
+    }
+
     static fetchAll() {
         return db.execute("SELECT * FROM documents");
     }

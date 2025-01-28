@@ -30,7 +30,7 @@ const sendEmailVerification = asyncHandler(async (req, res, next) => {
   const client = redis.createClient({ url: "redis://127.0.0.1:6379" });
   client.on("error", (err) => console.log("Redis Client Error", err));
   await client.connect();
-  await client.set(email, confirmationCode);
+  await client.set(email, confirmationCode,{EX:600});
   // 2) Define email Options (like : from, to, subject,email content)
   const emailOptions = {
     from: `JoMark < ${config.EMAIL_USER} >`,
@@ -77,7 +77,7 @@ const sendEmailOfForgotPassword = asyncHandler(async (req, res, next) => {
   const client = redis.createClient({ url: "redis://127.0.0.1:6379" });
   client.on("error", (err) => console.log("Redis Client Error", err));
   await client.connect();
-  await client.set(email, confirmationCode);
+  await client.set(email, confirmationCode,{EX:600});
   // 2) Define email Options (like : from, to, subject,email content)
   const emailOptions = {
     from: `JoMark < ${config.EMAIL_USER} >`,
@@ -121,23 +121,23 @@ const SignUp = asyncHandler(async (req, res, next) => {
       password || null,
       phoneNumber || null
     );
-    await user.save();
-    const [[userr]] = await Seller.findByEmail(user.email);
+    const id = await user.save();
     const store = new Store(
       storeName || null,
       storePic || null,
       storeSlogan || null,
-      userr.id,
+      id,
       address || null,
       longitude || null,
       latitude || null
     );
-    const storre = await store.save();
+    const storeId = await store.save();
     if (categories?.length) {
-      for (const category of categories) {
-        const categorySeller = new Store_category(storre, category);
-        await categorySeller.save();
-      }
+      const categoryData = categories.map((categoryId) => ({
+        storeId,
+        categoryId,
+      }));
+      await Store_category.saveMany(categoryData);
     }
     user.storeName = await storeName;
     user.storePic = await storePic;
@@ -165,11 +165,11 @@ const confirmation = asyncHandler(async (req, res, next) => {
   await client.connect();
   let confirmationCode = await client.get(email);
   const valid = (await code) === confirmationCode;
-  await client.del(email);
-  await client.disconnect();
   if (!valid) {
     return next(new ApiError("Invalid code", 400));
   } else {
+    await client.del(email);
+    await client.disconnect();
     return res
       .status(200)
       .json({ success: true, message: "code verification verified" });

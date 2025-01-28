@@ -25,10 +25,11 @@ const editStore = asyncHandler(async (req,res,next)=>{
     );
     await SCA.deleteByIdStore(storeId);
     if (categories?.length) {
-        for (let category of categories) {
-            const categorySeller = new SCA(storeId, category);
-            await categorySeller.save();
-        }
+        const categoryData = categories.map((categoryId) => ({
+            storeId,
+            categoryId,
+        }));
+        await SCA.saveMany(categoryData);
     }
     res.status(200).json({
         success: true,

@@ -39,10 +39,11 @@ const addProduct = asyncHandler(async (req, res, next) => {
   );
   const productId = await product.save();
   if (documents?.length) {
-    for (const documentLink of documents) {
-      const document = new Document(documentLink, productId);
-      await document.save();
-    }
+    const documentData = documents.map((link) => ({
+      link,
+      productId,
+    }));
+    await Document.saveMany(documentData);
   }
   res.status(201).json({
     success: true,
@@ -173,10 +174,11 @@ const editProduct = asyncHandler(async (req, res, next) => {
   );
   await Document.deleteByProductId(productId);
   if (documents?.length) {
-    for (const documentLink of documents) {
-      const document = new Document(documentLink, productId);
-      await document.save();
-    }
+    const documentData = documents.map((link) => ({
+      link,
+      productId,
+    }));
+    await Document.saveMany(documentData);
   }
   res.status(200).json({
     success: true,
