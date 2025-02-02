@@ -279,6 +279,20 @@ const likeForProduct = asyncHandler(async (req, res, next) => {
 
 })
 
+const updateActiveStatus = asyncHandler(async (req,res,next) => {
+  if (!req.isSeller) {
+    return next(new ApiError("You are not allowed to access this route ", 403));
+  }
+  const {productId} = req.params;
+  const {status}= req.body;
+
+  await Product.updateActiveStatus(productId,status);
+  res.status(203).json({
+      success: true,
+      message: "Product status updated successfully",
+    });
+})
+
 module.exports = {
   addProduct,
   getProducts,
@@ -292,4 +306,5 @@ module.exports = {
   getProductsForSearch,
   getSuggestion,
   likeForProduct,
+  updateActiveStatus
 };

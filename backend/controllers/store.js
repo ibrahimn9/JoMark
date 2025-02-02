@@ -52,7 +52,21 @@ const getAllStores = asyncHandler(async (req,res,next) => {
     });
 })
 
+const getStoreById = asyncHandler(async (req,res,next) => {
+    const {storeId} =req.params;
+    const [[store]] = await Store.findById(storeId);
+    const [categories] = await Category.findByStoreId(store.id);
+    store.categories =  await categories.map((cat) => cat.id);;
+    store.rating = await ReviewStore.rateAVG(store.id);
+    res.status(200).json({
+        success: true,
+        data:store,
+    });
+
+})
+
 module.exports={
     editStore,
-    getAllStores
+    getAllStores,
+    getStoreById
 }

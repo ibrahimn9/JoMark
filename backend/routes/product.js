@@ -9,7 +9,8 @@ const {
   getProductsByCategory,
   getProductsForSearch,
   getSuggestion,
-  likeForProduct
+  likeForProduct,
+  updateActiveStatus
 } = require("../controllers/product");
 
 const {
@@ -132,5 +133,14 @@ router.get("/product/suggest/:word", getSuggestion);
  * @access  buyer
 ------------------------------------------------*/
 router.put("/like/:productId", protect, likeForProduct);
+
+/**-----------------------------------------------
+ * @desc    update product status (active/inactive)
+ * @route   /product/:productId/status
+ * @method  PUT
+ * @access  seller
+
+------------------------------------------------*/
+router.put("/:productId/status",protect,updateActiveStatus);
 
 module.exports = router;

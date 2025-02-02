@@ -149,6 +149,10 @@ class Product {
       `SELECT id, name, FindMatchingWord('${word}', name) AS MatchingWord FROM products WHERE FindMatchingWord('${word}', name) IS NOT NULL`
     );
   }
+
+  static updateActiveStatus(productId,status){
+    return db.execute("UPDATE products SET active = ? where id = ?",[status,productId]);
+  }
 }
 
 module.exports = Product;

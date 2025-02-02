@@ -1,6 +1,6 @@
 const express = require("express");
 const {addReviewForStore,deleteReviewForStore,updateReviewForStore,getReviewForStore}= require("../controllers/review");
-const {editStore,getAllStores} = require('../controllers/store');
+const {editStore,getAllStores,getStoreById} = require('../controllers/store');
 const {getProductsByStore} = require('../controllers/product')
 const router = express.Router();
 const {protect} = require('../controllers/auth');
@@ -61,7 +61,15 @@ router.get('/stores',getAllStores);
  * @method  GET
  * @access  ALL
 ------------------------------------------------*/
-router.get('/:storeId/products',getProductsByStore)
+router.get('/:storeId/products',getProductsByStore);
+
+/**-----------------------------------------------
+ * @desc    get store by id
+ * @route   /store/:storeId
+ * @method  GET
+ * @access  ALL
+------------------------------------------------*/
+router.get('/:storeId',getStoreById);
 
 
 module.exports = router;
