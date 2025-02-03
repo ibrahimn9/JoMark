@@ -266,6 +266,30 @@ const protect = asyncHandler(async (req, res, next) => {
   req.userId = await decoded.userId;
   next();
 });
+
+const verifyIfEmailExist = asyncHandler(async (req,res,next) => {
+  const {email} = req.body;
+  const [[seller]] = await Seller.findByEmail(email);
+  if(seller){
+    return res.status(200).json({
+      message:true,
+      role:"seller"
+    });
+  }else{
+    const [[buyer]] = await Buyer.findByEmail(email);
+    if(buyer){
+      return res.status(200).json({
+        message:true,
+        role:"buyer"
+      });
+    }else{
+      return res.status(200).json({
+        message:false
+      });
+    }
+  }
+});
+
 module.exports = {
   login,
   sendEmailVerification,
@@ -274,4 +298,5 @@ module.exports = {
   sendEmailOfForgotPassword,
   setNewPw,
   protect,
+  verifyIfEmailExist,
 };

@@ -1,6 +1,6 @@
 const express = require("express");
 const {validateUser,validateEmailAndFullname} = require("../utils/validator/signupValidator");
-const {SignUp,confirmation, sendEmailVerification,login,sendEmailOfForgotPassword,setNewPw}= require("../controllers/auth");
+const {SignUp,confirmation, sendEmailVerification,login,sendEmailOfForgotPassword,setNewPw,verifyIfEmailExist}= require("../controllers/auth");
 const router = express.Router();
 
 /**-----------------------------------------------
@@ -53,6 +53,12 @@ router.post('/sendEmail/forgotPw',sendEmailOfForgotPassword);
 ------------------------------------------------*/
 router.put('/changePassword',setNewPw);
 
-
+/**-----------------------------------------------
+ * @desc    verify if email exist
+ * @route   /api/auth/emailExist
+ * @method  GET
+ * @access  public
+------------------------------------------------*/
+router.get('/emailExist',verifyIfEmailExist);
 
 module.exports = router;
